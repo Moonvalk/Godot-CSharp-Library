@@ -45,7 +45,7 @@ namespace Moonvalk.Animation {
 						case MoonTweenProperty.Scale:
 							return () => { spatial.Scale = this._value; };
 						case MoonTweenProperty.Rotation:
-							return () => { spatial.Rotation = this._value; };
+							return () => { spatial.RotationDegrees = this._value; };
 					}
 				break;
 			}
@@ -67,7 +67,7 @@ namespace Moonvalk.Animation {
 						case MoonTweenProperty.Scale:
 							return spatial.Scale;
 						case MoonTweenProperty.Rotation:
-							return spatial.Rotation;
+							return spatial.RotationDegrees;
 					}
 				break;
 			}
