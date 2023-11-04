@@ -60,9 +60,9 @@ namespace Moonvalk.Animation {
 		protected Dictionary<MoonTweenState, InitValue<List<Action>>> _functions;
 
 		/// <summary>
-        /// Stores reference to custom tweens applied to user generated values.
-        /// </summary>
-        public static Dictionary<Ref<Unit>, BaseMoonTween<Unit>> CustomTweens { get; protected set; }
+		/// Stores reference to custom tweens applied to user generated values.
+		/// </summary>
+		public static Dictionary<Ref<Unit>, BaseMoonTween<Unit>> CustomTweens { get; protected set; }
 		#endregion
 
 		#region Constructor(s)
@@ -316,54 +316,54 @@ namespace Moonvalk.Animation {
 		}
 
 		/// <summary>
-        /// Initializes a custom tween based on a reference value as a property.
-        /// </summary>
+		/// Initializes a custom tween based on a reference value as a property.
+		/// </summary>
 		/// <typeparam name="TweenType">The type of Tween that will be used.</typeparam>
-        /// <param name="referenceValue_">The property to be animated.</param>
-        /// <param name="target_">The target value.</param>
-        /// <param name="parameters_">Properties that adjust how this animation will look.</param>
-        /// <param name="start_">Flag that determines if this animation should begin immediately.</param>
-        /// <returns>Returns the new Tween object.</returns>
-        public static BaseMoonTween<Unit> CustomTweenTo<TweenType>(
+		/// <param name="referenceValue_">The property to be animated.</param>
+		/// <param name="target_">The target value.</param>
+		/// <param name="parameters_">Properties that adjust how this animation will look.</param>
+		/// <param name="start_">Flag that determines if this animation should begin immediately.</param>
+		/// <returns>Returns the new Tween object.</returns>
+		public static BaseMoonTween<Unit> CustomTweenTo<TweenType>(
 			Ref<Unit> referenceValue_,
 			Unit target_,
 			MoonTweenParams parameters_ = null,
 			bool start_ = true
 		) where TweenType : BaseMoonTween<Unit>, new() {
-            BaseMoonTween<Unit>.CustomTweens = BaseMoonTween<Unit>.CustomTweens ?? new Dictionary<Ref<Unit>, BaseMoonTween<Unit>>();
-            if (BaseMoonTween<Unit>.CustomTweens.ContainsKey(referenceValue_)) {
-                BaseMoonTween<Unit>.CustomTweens[referenceValue_].Delete();
-                BaseMoonTween<Unit>.CustomTweens.Remove(referenceValue_);
-            }
+			BaseMoonTween<Unit>.CustomTweens = BaseMoonTween<Unit>.CustomTweens ?? new Dictionary<Ref<Unit>, BaseMoonTween<Unit>>();
+			if (BaseMoonTween<Unit>.CustomTweens.ContainsKey(referenceValue_)) {
+				BaseMoonTween<Unit>.CustomTweens[referenceValue_].Delete();
+				BaseMoonTween<Unit>.CustomTweens.Remove(referenceValue_);
+			}
 			BaseMoonTween<Unit> tween = new TweenType() { StartOnTargetAssigned = start_ };
 			tween.SetReferences(referenceValue_).SetParameters(parameters_ ?? new MoonTweenParams()).OnComplete(() => {
 				BaseMoonTween<Unit>.CustomTweens.Remove(referenceValue_);
 			}).To(target_);
 
-            BaseMoonTween<Unit>.CustomTweens.Add(referenceValue_, tween);
-            return tween;
+			BaseMoonTween<Unit>.CustomTweens.Add(referenceValue_, tween);
+			return tween;
 		}
 
-        /// <summary>
-        /// Gets a custom Tween object for the provided reference value, if it exists.
-        /// </summary>
-        /// <typeparam name="Unit">The type of used for this reference value.</typeparam>
-        /// <param name="referenceValue_">The reference value a Tween object is applied to.</param>
-        /// <returns>Returns the requested Tween object if it exists or null if it cannot be found.</returns>
-        public static BaseMoonTween<Unit> GetCustomTween(Ref<Unit> referenceValue_) {
-            if (BaseMoonTween<Unit>.CustomTweens.ContainsKey(referenceValue_)) {
-                return BaseMoonTween<Unit>.CustomTweens[referenceValue_];
-            }
-            return null;
-        }
+		/// <summary>
+		/// Gets a custom Tween object for the provided reference value, if it exists.
+		/// </summary>
+		/// <typeparam name="Unit">The type of used for this reference value.</typeparam>
+		/// <param name="referenceValue_">The reference value a Tween object is applied to.</param>
+		/// <returns>Returns the requested Tween object if it exists or null if it cannot be found.</returns>
+		public static BaseMoonTween<Unit> GetCustomTween(Ref<Unit> referenceValue_) {
+			if (BaseMoonTween<Unit>.CustomTweens.ContainsKey(referenceValue_)) {
+				return BaseMoonTween<Unit>.CustomTweens[referenceValue_];
+			}
+			return null;
+		}
 
 		/// <summary>
-        /// Returns true when this object is complete.
-        /// </summary>
-        /// <returns>True when state is complete.</returns>
-        public bool IsComplete() {
-            return this.CurrentState == MoonTweenState.Complete;
-        }
+		/// Returns true when this object is complete.
+		/// </summary>
+		/// <returns>True when state is complete.</returns>
+		public bool IsComplete() {
+			return this.CurrentState == MoonTweenState.Complete;
+		}
 		#endregion
 
 		#region Private Methods

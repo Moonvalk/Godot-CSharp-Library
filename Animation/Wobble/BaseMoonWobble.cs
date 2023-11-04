@@ -73,9 +73,9 @@ namespace Moonvalk.Animation {
 		protected Dictionary<MoonWobbleState, InitValue<List<Action>>> _functions;
 
 		/// <summary>
-        /// Stores reference to custom Wobbles applied to user generated values.
-        /// </summary>
-        public static Dictionary<Ref<Unit>, BaseMoonWobble<Unit>> CustomWobbles { get; protected set; }
+		/// Stores reference to custom Wobbles applied to user generated values.
+		/// </summary>
+		public static Dictionary<Ref<Unit>, BaseMoonWobble<Unit>> CustomWobbles { get; protected set; }
 		#endregion
 
 		/// <summary>
@@ -339,25 +339,25 @@ namespace Moonvalk.Animation {
 		}
 
 		/// <summary>
-        /// Initializes a custom Wobble based on a reference value as a property.
-        /// </summary>
-        /// <param name="referenceValue_">The property to be animated.</param>
-        /// <param name="percentage_">the percentage of the property that will be affected. This is useful for
+		/// Initializes a custom Wobble based on a reference value as a property.
+		/// </summary>
+		/// <param name="referenceValue_">The property to be animated.</param>
+		/// <param name="percentage_">the percentage of the property that will be affected. This is useful for
 		/// multi-axis values that need to be affected differently.</param>
-        /// <param name="parameters_">Properties that adjust how this animation will look.</param>
-        /// <param name="start_">Flag that determines if this animation should begin immediately.</param>
-        /// <returns>Returns the new Wobble instance.</returns>
-        public static BaseMoonWobble<Unit> CustomWobbleTo<WobbleType>(
+		/// <param name="parameters_">Properties that adjust how this animation will look.</param>
+		/// <param name="start_">Flag that determines if this animation should begin immediately.</param>
+		/// <returns>Returns the new Wobble instance.</returns>
+		public static BaseMoonWobble<Unit> CustomWobbleTo<WobbleType>(
 			Ref<Unit> referenceValue_,
 			Unit percentage_,
 			MoonWobbleParams parameters_ = null,
 			bool start_ = true
 		) where WobbleType : BaseMoonWobble<Unit>, new() {
-            BaseMoonWobble<Unit>.CustomWobbles = BaseMoonWobble<Unit>.CustomWobbles ?? new Dictionary<Ref<Unit>, BaseMoonWobble<Unit>>();
-            if (BaseMoonWobble<Unit>.CustomWobbles.ContainsKey(referenceValue_)) {
-                BaseMoonWobble<Unit>.CustomWobbles[referenceValue_].Delete();
-                BaseMoonWobble<Unit>.CustomWobbles.Remove(referenceValue_);
-            }
+			BaseMoonWobble<Unit>.CustomWobbles = BaseMoonWobble<Unit>.CustomWobbles ?? new Dictionary<Ref<Unit>, BaseMoonWobble<Unit>>();
+			if (BaseMoonWobble<Unit>.CustomWobbles.ContainsKey(referenceValue_)) {
+				BaseMoonWobble<Unit>.CustomWobbles[referenceValue_].Delete();
+				BaseMoonWobble<Unit>.CustomWobbles.Remove(referenceValue_);
+			}
 			BaseMoonWobble<Unit> wobble = new WobbleType();
 			wobble.SetReferences(referenceValue_).SetParameters(parameters_ ?? new MoonWobbleParams())
 				.SetPercentage(percentage_).OnComplete(() => {
@@ -367,30 +367,30 @@ namespace Moonvalk.Animation {
 				wobble.Start();
 			}
 
-            BaseMoonWobble<Unit>.CustomWobbles.Add(referenceValue_, wobble);
-            return wobble;
+			BaseMoonWobble<Unit>.CustomWobbles.Add(referenceValue_, wobble);
+			return wobble;
 		}
 
-        /// <summary>
-        /// Gets a custom Wobble object for the provided reference value, if it exists.
-        /// </summary>
-        /// <typeparam name="Unit">The type of used for this reference value.</typeparam>
-        /// <param name="referenceValue_">The reference value a Wobble object is applied to.</param>
-        /// <returns>Returns the requested Wobble object if it exists or null if it cannot be found.</returns>
-        public static BaseMoonWobble<Unit> GetCustomWobble(Ref<Unit> referenceValue_) {
-            if (BaseMoonWobble<Unit>.CustomWobbles.ContainsKey(referenceValue_)) {
-                return BaseMoonWobble<Unit>.CustomWobbles[referenceValue_];
-            }
-            return null;
-        }
+		/// <summary>
+		/// Gets a custom Wobble object for the provided reference value, if it exists.
+		/// </summary>
+		/// <typeparam name="Unit">The type of used for this reference value.</typeparam>
+		/// <param name="referenceValue_">The reference value a Wobble object is applied to.</param>
+		/// <returns>Returns the requested Wobble object if it exists or null if it cannot be found.</returns>
+		public static BaseMoonWobble<Unit> GetCustomWobble(Ref<Unit> referenceValue_) {
+			if (BaseMoonWobble<Unit>.CustomWobbles.ContainsKey(referenceValue_)) {
+				return BaseMoonWobble<Unit>.CustomWobbles[referenceValue_];
+			}
+			return null;
+		}
 
 		/// <summary>
-        /// Returns true when this object is complete.
-        /// </summary>
-        /// <returns>True when state is complete.</returns>
-        public bool IsComplete() {
-            return this.CurrentState == MoonWobbleState.Complete;
-        }
+		/// Returns true when this object is complete.
+		/// </summary>
+		/// <returns>True when state is complete.</returns>
+		public bool IsComplete() {
+			return this.CurrentState == MoonWobbleState.Complete;
+		}
 		#endregion
 
 		#region Private Methods
