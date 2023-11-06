@@ -39,6 +39,7 @@ namespace Moonvalk.Animation {
 			SinusoidalIn,
 			SinusoidalOut,
 			SinusoidalInOut,
+			None,
 		}
 	}
 }

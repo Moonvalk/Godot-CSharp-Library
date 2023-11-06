@@ -13,6 +13,12 @@ namespace Game {
 		public static GameManager Instance { get; private set; }
 		#endregion
 
+		/// <summary>
+		/// A maximum time elapsed allowed to be sent for game ticks. This helps to
+		/// minimize lag spikes applied to systems.
+		/// </summary>
+		public const float MAXIMUM_FRAME_DELTA = 0.033f;
+
 		#region Godot Events
 		/// <summary>
 		/// Occurs once this object is initialized.
@@ -26,7 +32,8 @@ namespace Game {
 		/// </summary>
 		/// <param name="delta_">The time elapsed since last frame.</param>
 		public override void _Process(float delta_) {
-			Global.Systems.Update(delta_);
+			float deltaCapped = Mathf.Min(delta_, MAXIMUM_FRAME_DELTA);
+			Global.Systems.Update(deltaCapped);
 		}
 		#endregion
 

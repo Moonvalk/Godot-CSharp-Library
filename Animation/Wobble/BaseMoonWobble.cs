@@ -7,6 +7,7 @@ namespace Moonvalk.Animation {
 	/// <summary>
 	/// Container representing a singular Wobble instance.
 	/// </summary>
+	/// <typeparam name="Unit">The type of value that will be affected by Spring forces</typeparam>
 	public abstract class BaseMoonWobble<Unit> : IMoonWobble<Unit> {
 		#region Data Fields
 		/// <summary>
@@ -262,6 +263,12 @@ namespace Moonvalk.Animation {
 		/// <returns>Returns this Wobble object.</returns>
 		public BaseMoonWobble<Unit> SetParameters(MoonWobbleParams parameters_) {
 			this.SetFrequency(parameters_.Frequency).SetAmplitude(parameters_.Amplitude).SetDuration(parameters_.Duration);
+			if (parameters_.EaseIn != null) {
+				this.EaseIn(parameters_.EaseIn);
+			}
+			if (parameters_.EaseOut != null) {
+				this.EaseOut(parameters_.EaseOut);
+			}
 			return this;
 		}
 

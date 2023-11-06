@@ -29,6 +29,7 @@ namespace Moonvalk.Animation {
 			{Types.ExponentialOut,      Exponential.Out},
 			{Types.ExponentialInOut,    Exponential.InOut},
 			{Types.Linear,              Linear.None},
+			{Types.None,				Linear.None},
 			{Types.QuadraticIn,         Quadratic.In},
 			{Types.QuadraticOut,        Quadratic.Out},
 			{Types.QuadraticInOut,      Quadratic.InOut},

@@ -7,6 +7,7 @@ namespace Moonvalk.Animation {
 	/// <summary>
 	/// Container representing a singular Tween object.
 	/// </summary>
+	/// <typeparam name="Unit">The type of value that will be affected by Spring forces</typeparam>
 	public abstract class BaseMoonTween<Unit> : IMoonTween<Unit> {
 		#region Data Fields
 		/// <summary>
@@ -218,7 +219,8 @@ namespace Moonvalk.Animation {
 		/// <param name="parameters_">All properties that will be assigned.</param>
 		/// <returns>Returns this Tween object.</returns>
 		public BaseMoonTween<Unit> SetParameters(MoonTweenParams parameters_) {
-			this.SetDuration(parameters_.Duration).SetDelay(parameters_.Delay).SetEase(Easing.Functions[parameters_.EasingType]);
+			this.SetDuration(parameters_.Duration).SetDelay(parameters_.Delay)
+				.SetEase(parameters_.EasingType != Easing.Types.None ? Easing.Functions[parameters_.EasingType] : parameters_.EasingFunction);
 			return this;
 		}
 
