@@ -60,8 +60,9 @@ namespace Moonvalk.Resources {
 		/// <param name="hintString_">A string used as a hint when hovering the setting.</param>
 		private static void AddSetting(string title_, Variant.Type type_, object value_, PropertyHint hint_ = PropertyHint.None, string hintString_ = "") {
 			title_ = SettingPath(title_);
-			if (!ProjectSettings.HasSetting(title_))
+			if (!ProjectSettings.HasSetting(title_)) {
 				ProjectSettings.SetSetting(title_, value_);
+			}
 			var info = new Dictionary
 			{
 				["name"] = title_,
