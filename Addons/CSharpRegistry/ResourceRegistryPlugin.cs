@@ -172,8 +172,9 @@ namespace Moonvalk.Resources {
 		protected static string findClassPathRecursive(Type type_) {
 			foreach (string directory in ResourceRegistrySettings.ResourceScriptDirectories) {
 				string fileFound = findClassPathRecursiveHelper(type_, directory);
-				if (fileFound != null)
+				if (fileFound != null) {
 					return fileFound;
+				}
 			}
 			return null;
 		}
