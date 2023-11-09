@@ -224,6 +224,27 @@ namespace Moonvalk.Utilities {
 		public bool IsComplete() {
 			return this.CurrentState == BaseMoonTimerState.Complete;
 		}
+
+		/// <summary>
+		/// Clears all Actions that have been assigned to this timer.
+		/// </summary>
+		/// <returns>Returns this timer object.</returns>
+		public BaseMoonTimer Reset() {
+			foreach (InitValue<List<Action>> actionList in this._functions.Values) {
+				actionList.Value.Clear();
+			}
+			return this;
+		}
+
+		/// <summary>
+		/// Clears all Actions that have been assigned to this timer for the given state.
+		/// </summary>
+		/// <param name="state_">The state to reset actions for.</param>
+		/// <returns>Returns this timer object.</returns>
+		public BaseMoonTimer Reset(BaseMoonTimerState state_) {
+			this._functions[state_].Value.Clear();
+			return this;
+		}
 		#endregion
 
 		#region Private Methods
@@ -266,8 +287,8 @@ namespace Moonvalk.Utilities {
 		/// </summary>
 		/// <param name="state_">The state to run tasks for.</param>
 		protected void handleTasks(BaseMoonTimerState state_) {
-			foreach (Action action in _functions[state_].Value) {
-				action();
+			for (int index = 0; index < this._functions[state_].Value.Count; index++) {
+				this._functions[state_].Value[index]?.Invoke();
 			}
 		}
 		#endregion
