@@ -316,7 +316,9 @@ namespace Moonvalk.Animation {
 		/// </summary>
 		/// <returns>Returns this Wobble object.</returns>
 		public BaseMoonWobble<Unit> Reset() {
-			this._functions.Clear();
+			foreach (InitValue<List<Action>> actionList in this._functions.Values) {
+				actionList.Value.Clear();
+			}
 			return this;
 		}
 
@@ -326,7 +328,7 @@ namespace Moonvalk.Animation {
 		/// <param name="state_">The state to reset actions for.</param>
 		/// <returns>Returns this Wobble object.</returns>
 		public BaseMoonWobble<Unit> Reset(MoonWobbleState state_) {
-			this._functions[MoonWobbleState.Complete].Value.Clear();
+			this._functions[state_].Value.Clear();
 			return this;
 		}
 

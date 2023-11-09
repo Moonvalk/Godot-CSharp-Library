@@ -247,6 +247,27 @@ namespace Moonvalk.Animation {
 		}
 
 		/// <summary>
+		/// Clears all Actions that have been assigned to this Spring.
+		/// </summary>
+		/// <returns>Returns this Spring object.</returns>
+		public BaseMoonSpring<Unit> Reset() {
+			foreach (InitValue<List<Action>> actionList in this._functions.Values) {
+				actionList.Value.Clear();
+			}
+			return this;
+		}
+
+		/// <summary>
+		/// Clears all Actions that have been assigned to this Spring for the given state.
+		/// </summary>
+		/// <param name="state_">The state to reset actions for.</param>
+		/// <returns>Returns this Spring object.</returns>
+		public BaseMoonSpring<Unit> Reset(MoonSpringState state_) {
+			this._functions[state_].Value.Clear();
+			return this;
+		}
+
+		/// <summary>
 		/// Handles all tasks for the current state of this base spring.
 		/// </summary>
 		public void HandleTasks() {
