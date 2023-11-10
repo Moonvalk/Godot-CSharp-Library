@@ -17,6 +17,7 @@ ResourceScriptDirectories=[ "res://" ]
 [application]
 
 config/name="Godot C Sharp Library"
+run/main_scene="res://Scenes/GameManager.tscn"
 
 [display]
 
