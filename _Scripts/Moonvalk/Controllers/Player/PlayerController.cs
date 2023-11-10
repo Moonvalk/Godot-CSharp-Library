@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using Godot;
 using Moonvalk.Accessory;
+using Moonvalk.Utilities.Algorithms;
 
 namespace Moonvalk.Controllers {
 	/// <summary>
@@ -81,7 +83,6 @@ namespace Moonvalk.Controllers {
 		/// </summary>
 		/// <param name="delta_"></param>
 		public override void _PhysicsProcess(float delta_) {
-			this.handleBillboard();
 			this.handleFriction();
 			this.handleMovement();
 
@@ -96,13 +97,6 @@ namespace Moonvalk.Controllers {
 		#endregion
 
 		#region Private Methods
-		/// <summary>
-		/// 
-		/// </summary>
-		protected void handleBillboard() {
-
-		}
-
 		/// <summary>
 		/// 
 		/// </summary>
@@ -159,7 +153,33 @@ namespace Moonvalk.Controllers {
 		/// 
 		/// </summary>
 		protected void applySpringForce() {
+			PhysicsDirectSpaceState spaceState = this.GetWorld().DirectSpaceState;
+			Vector3 rayStart = this.Transform.origin + (Vector3.Up * this.Properties.RaycastOriginOffset);
+			Vector3 rayEnd = rayStart + (Vector3.Down * (this.Properties.RideSpringHeight + this.Properties.RaycastOriginOffset));
 
+			Godot.Collections.Dictionary collision = spaceState.IntersectRay(rayStart, rayEnd, new Godot.Collections.Array() { this });
+			if (collision != null) {
+				Vector3 rayDirection = -this.Transform.basis.y;
+				Vector3 otherVelocity = Vector3.Zero;
+				Vector3 collisionPoint = (collision.Contains("position") && collision["position"] is Vector3 vector3 ? vector3 : rayEnd);
+				RigidBody hitBody = (collision.Contains("collider") && collision["collider"] is RigidBody rigidBody ? rigidBody : null);
+				if (hitBody != null) {
+					otherVelocity = hitBody.LinearVelocity;
+				}
+
+				float rayDirectionVelocity = rayDirection.Dot(this.LinearVelocity);
+				float otherDirectionVelocity = rayDirection.Dot(otherVelocity);
+				float relativeVelocity = (rayDirectionVelocity - otherDirectionVelocity);
+
+				float offset = rayStart.DistanceTo(collisionPoint) - this.Properties.RideSpringHeight;
+				float rideForce = MotionAlgorithms.SimpleHarmonicMotion(this.Properties.RideSpringParams.Tension, offset,
+					this.Properties.RideSpringParams.Dampening, relativeVelocity);
+				this.AddCentralForce(rayDirection * rideForce);
+
+				if (hitBody != null) {
+					hitBody.AddCentralForce(rayDirection * -rideForce);
+				}
+			}
 		}
 		#endregion
 	}

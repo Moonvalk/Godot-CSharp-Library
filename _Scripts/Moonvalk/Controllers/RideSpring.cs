@@ -7,28 +7,29 @@ namespace Moonvalk.Controllers {
 	public class RideSpring : Spatial {
 		[Export] public RideSpringParams Properties { get; protected set; }
 
-		public MoonSpring Spring { get; protected set; }
+		// public MoonSpring Spring { get; protected set; }
 
-		protected float _currentRideHeight = 0f;
+		// protected float _currentRideHeight = 0f;
 		protected Vector3 _currentVelocity = new Vector3();
 
 		public override void _Ready() {
 			this.Properties = this.Properties ?? new RideSpringParams();
-			this.Spring = new MoonSpring(() => ref this._currentRideHeight);
+			// this.Spring = new MoonSpring(() => ref this._currentRideHeight);
 		}
 
 		public override void _PhysicsProcess(float delta_) {
+			this._currentVelocity += Vector3.Down * 5.0f * delta_;
 			this.applySpringForce(delta_);
-			this.Translation += this._currentVelocity;
+			this.Translation += this._currentVelocity * delta_;
 		}
 
 		protected void applySpringForce(float delta_) {
 			PhysicsDirectSpaceState spaceState = this.GetWorld().DirectSpaceState;
-			Vector3 rayStart = this.Transform.origin + (Vector3.Up * this.Properties.RaycastOriginOffset);
+			Vector3 rayStart = this.Translation + (Vector3.Up * this.Properties.RaycastOriginOffset);
 			Vector3 rayEnd = rayStart + (Vector3.Down * (this.Properties.RideSpringHeight + this.Properties.RaycastOriginOffset));
 			
 			Dictionary collision = spaceState.IntersectRay(rayStart, rayEnd, new Array() { this });
-			if (collision != null) {
+			if (collision != null && collision.Contains("collider") && collision["collider"] != null) {
 				Vector3 rayDirection = -this.Transform.basis.y;
 				Vector3 otherVelocity = Vector3.Zero;
 				Vector3 collisionPoint = (collision.Contains("position") && collision["position"] is Vector3 vector3 ? vector3 : rayEnd);
@@ -44,7 +45,8 @@ namespace Moonvalk.Controllers {
 				float offset = rayStart.DistanceTo(collisionPoint) - this.Properties.RideSpringHeight;
 				float rideForce = MotionAlgorithms.SimpleHarmonicMotion(this.Properties.SpringParams.Tension, offset,
 					this.Properties.SpringParams.Dampening, relativeVelocity);
-				this._currentVelocity.y += (rideForce * delta_);
+				// this._currentVelocity.y += (rideForce * delta_);
+				this._currentVelocity += rayDirection * rideForce * delta_;
 
 				if (hitBody != null) {
 					hitBody.AddCentralForce(rayDirection * -rideForce);

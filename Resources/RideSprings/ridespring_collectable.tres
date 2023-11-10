@@ -1,0 +1,11 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://_Scripts/Moonvalk/Controllers/RideSpringParams.cs" type="Script" id=1]
+[ext_resource path="res://Resources/Animations/Springs/spring_collectable.tres" type="Resource" id=2]
+
+[resource]
+script = ExtResource( 1 )
+SpringParams = ExtResource( 2 )
+RaycastOriginOffset = 0.05
+GroundRayHeight = 0.6
+RideSpringHeight = 0.5
